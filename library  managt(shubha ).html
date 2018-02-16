@@ -1,0 +1,351 @@
+<!doctype html>
+<html>
+<head>
+	
+	<center><h1>LIBRARY MANAGEMENT</h1></center>
+<br>
+<title>
+	
+</title>
+	<script src="web3.min.js"></script>
+<body  bgcolor="E6E6FA">
+
+<script>
+	web3.eth.defaultAccount="0xD8D203f96577f3F3808bce7F2F6d03Db0c7F8D36";
+	var Librarycon=web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "validation",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalcount",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_id",
+				"type": "address"
+			}
+		],
+		"name": "penalty",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "_ISBN",
+				"type": "uint256"
+			},
+			{
+				"name": "_add",
+				"type": "uint256"
+			}
+		],
+		"name": "getsearch",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "count",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "available",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ISBN",
+				"type": "uint256"
+			}
+		],
+		"name": "bookreturn",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_add",
+				"type": "uint256"
+			},
+			{
+				"name": "_bookname",
+				"type": "string"
+			},
+			{
+				"name": "_authorname",
+				"type": "string"
+			},
+			{
+				"name": "_ISBN",
+				"type": "uint256"
+			}
+		],
+		"name": "settbook",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_ad",
+				"type": "address"
+			},
+			{
+				"name": "_bookname",
+				"type": "string"
+			},
+			{
+				"name": "_authorname",
+				"type": "string"
+			},
+			{
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "setuser",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]);
+	var Library=Librarycon.at('0xba441865dc00d75e2128626a331a98cb112bc37b');
+	if(!web3.isConnected()) {
+  
+        console.log("Ok");
+        
+      } else {
+        console.log("no");
+      }
+      web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        });
+function Getbooks(){
+
+		var add=document.getElementById("a15").value;
+		var bookname=document.getElementById("a1").value;  
+		var authorname=document.getElementById("a2").value;
+		var ISBN=document.getElementById("a3").value;
+		Library.settbook(add,bookname,authorname,ISBN,function(result,error){
+		if(!result){
+			alert(result);
+			}
+});
+	}
+	
+
+function getuser(){
+		var address=document.getElementById("a16").value;
+		var bookname=document.getElementById("a4").value;
+		var Authorname=document.getElementById("a5").value;
+		var id=document.getElementById("a6").value;
+		
+		Library.setuser(address,bookname,Authorname,id,function(result,error){
+		if(!result){
+			alert(result);
+		}
+});
+	}
+
+function Getsearch(){
+		alert("yes");
+		var ISBN=document.getElementById("a8").value;
+		var address=document.getElementById("a14").value;
+		Library.getsearch(ISBN,address,function(result,error){
+		if(!result){
+			alert(result);
+		}
+	});
+}
+
+function validation(){
+		var Id=document.getElementById("a9").value;
+		Library.validation(Id,function(result,error){
+		if(!result){
+			alert(result);
+		}
+	});
+}
+
+function BookReturn(){
+		var ISBN=document.getElementById("a10").value;
+		Library.bookreturn(ISBN,function(result,errror){
+		if(!result){
+			alert(result);
+		}
+	});
+}
+	
+
+function  penalty(){
+		var Id=document.getElementById("a11").value;
+		Library.penalty(Id,function(result,error){
+		if(!result){
+			alert(result);
+		}
+	});
+}
+		
+
+</script>
+
+<tr>
+<td><h2>Book  Details:</h2></td><br>
+	<td>Address</td>
+	<td><input type="number" id="a15" value=""></td><br>
+	<td>Bookname </td>
+	<td><input type="text" id="a1"  value=""></td><br>
+	<td>Authorname </td>
+	</td><input type="text" id="a2" value=""></td><br>
+	<td>ISBN number</td>
+	</td><input type="number" id="a3" value=""></td><br>
+	<td><input type="button"  value="click"  onclick="Getbooks()"></td></button><br>
+</tr>
+<tr>
+<td><h2>User Details:</h2></td><br>
+	<td>Address</td>
+	<td><input type="text" id="a16" value=""></td><br>
+	<td>Bookname</td>
+	<td><input type="text" id="a4" value=""></td><br>
+	<td>Authorname</td>
+	<td><input type="text" id="a5" value=""></td><br>
+	<td>Id</td>
+	<td><input type="text" id="a6"  value=""></td><br>
+	<td><input type="button"   value="click" onclick="getuser()"></td></button><br>
+</tr>
+
+<tr>
+<td><h2>Get Search:</h2></td><br>
+	<td>ISBN</td>
+	<td><input type="number"  id="a8" value=""></td><br>
+	<td>Address</td>
+	<td><input type="number" id="a14" value=""></td><br>
+	<td><input type="button"  value="click" onclick="Getsearch()"></td></button><br>
+</tr>
+
+<tr>
+<td><h2>Validate:</h2></td><br>
+	<td>Id:<input type="number" id="a9" value=""></td><br>
+	<td><input type="button"  value="click" onclick="validation()"></td></button><br>
+</tr>
+
+<tr>
+<td><h2>ReturnBooks:</h2></td><br>
+	<td>ISBN:</td>
+	<td><input type="number" id="a10" value=""></td><br>
+	<td><input type="button"  value="click" onclick="BookReturn()"></td><br>
+	</tr>
+
+<tr>
+<td><h2>Penalty:</2
+></td><br>
+	<td>Id:</td>
+	<td><input type="number" id="a11" value=""></td><br>
+	<td><input type="button"  value="click" onclick="penalty()"></button></td><br>
+	</tr>
+</center>
+	
+
+</body>
+</html>
